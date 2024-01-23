@@ -5,85 +5,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+   
     <title>Login and Sign-up Page</title>
-
-    <script>
-
-        function signUp() {
-            var username = document.getElementById("signup-username").value;
-            var email = document.getElementById("signup-email").value;
-            var password = document.getElementById("signup-password").value;
-
-            console.log("Signing up with:", username, email, password);
-
-            localStorage.setItem("username", username);
-            localStorage.setItem("email", email);
-            localStorage.setItem("password", password);
-        }
-
-
-
-        function login() {
-            var loginUsername = document.getElementById("login-username").value;
-            var loginPassword = document.getElementById("login-password").value;
-
-
-            var storedUsername = localStorage.getItem("username");
-            var storedPassword = localStorage.getItem("password");
-
-
-            if (loginUsername === storedUsername && loginPassword === storedPassword) {
-                alert("Login successful!");
-            } else {
-                alert("Invalid username or password. Please try again.");
-            }
-        }
-    </script>
-
 </head>
 
 <body>
-
     <h1 class="page-title">Quick Stock Manager</h1>
     <div class="container">
-        <div class="container">
-            <div class="form-container sign-up">
-                <div class="form">
-                    <h2>Sign Up</h2>
-                    <form action="#" method="post">
+        <div class="form-container sign-up">
+            <div class="form">
+                <h2>Sign Up</h2>
+                <form id="signup-form" action="#" method="post">
+                    <label for="signup-username">Username:</label>
+                    <input type="text" id="signup-username" name="signup-username" required>
 
+                    <label for="signup-email">Email:</label>
+                    <input type="text" id="signup-email" name="signup-email" required>
 
+                    <label for="signup-password">Password:</label>
+                    <input type="password" id="signup-password" name="signup-password" required>
 
-                        <label for="signup-username">Username:</label>
-                        <input type="text" id="signup-username" name="signup-username" required>
-
-                        <label for="signup-email">Email:</label>
-                        <input type="text" id="signup-email" name="signup-email" required>
-
-                        <label for="signup-password">Password:</label>
-                        <input type="password" id="signup-password" name="signup-password" required>
-
-                        <button type="submit" class="btn-sign-up">Sign Up</button>
-                    </form>
-                </div>
-            </div>
-
-            <div class="form-container login">
-                <div class="form">
-                    <h2>Login</h2>
-                    <form action="#" method="post">
-
-                        <label for="login-username">Username:</label>
-                        <input type="text" id="login-username" name="login-username" required>
-
-                        <label for="login-password">Password:</label>
-                        <input type="password" id="login-password" name="login-password" required>
-
-                        <button type="submit" class="btn-login">Login</button>
-                    </form>
-                </div>
+                    <button type="button" class="btn-sign-up" onclick="signUp()">Sign Up</button>
+                </form>
             </div>
         </div>
+
+        <div class="form-container login">
+            <div class="form">
+                <h2>Login</h2>
+                <form id="login-form" action="#" method="post">
+                    <label for="login-username">Username:</label>
+                    <input type="text" id="login-username" name="login-username" required>
+
+                    <label for="login-password">Password:</label>
+                    <input type="password" id="login-password" name="login-password" required>
+
+                    <button type="button" class="btn-login" onclick="login()">Login</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>

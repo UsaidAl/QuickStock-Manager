@@ -1,3 +1,13 @@
+
+function hashPassword(password) {
+   
+    var hasher = new TextEncoder().encode(password);
+    return crypto.subtle.digest('SHA-256', hasher).then(buffer => {
+        var hashArray = Array.from(new Uint8Array(buffer));
+        return hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
+    });
+}
+
 function signUp() {
     var username = document.getElementById("signup-username").value;
     var email = document.getElementById("signup-email").value;
@@ -5,9 +15,14 @@ function signUp() {
 
     console.log("Signing up with:", username, email, password);
 
-    localStorage.setItem("username", username);
-    localStorage.setItem("email", email);
-    localStorage.setItem("password", password);
+
+    hashPassword(password).then(function (hashedPassword) {
+        localStorage.setItem("username", username);
+        localStorage.setItem("email", email);
+        localStorage.setItem("password", hashedPassword);
+
+        alert("Sign up successful!");
+    });
 }
 
 function login() {
@@ -15,11 +30,16 @@ function login() {
     var loginPassword = document.getElementById("login-password").value;
 
     var storedUsername = localStorage.getItem("username");
-    var storedPassword = localStorage.getItem("password");
+    var storedHashedPassword = localStorage.getItem("password");
 
-    if (loginUsername === storedUsername && loginPassword === storedPassword) {
-        alert("Login successful!");
-    } else {
-        alert("Invalid username or password. Please try again.");
-    }
+    
+    hashPassword(loginPassword).then(function (hashedLoginPassword) {
+        if (loginUsername === storedUsername && hashedLoginPassword === storedHashedPassword) {
+            alert("Login successful!");
+        } else {
+            alert("Invalid username or password. Please try again.");
+        }
+    });
 }
+
+
