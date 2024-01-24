@@ -1,7 +1,8 @@
+const router = require('express').Router();
 const express = require('express');
 const { Category } = require('../../models'); // Assuming your Category model is in the models directory
 
-const router = express.Router();
+
 
 // Route to add a new category
 router.post('/categories', async (req, res) => {

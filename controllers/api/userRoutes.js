@@ -1,7 +1,8 @@
+const router = require('express').Router();
 const express = require('express');
 const { User } = require('../../models'); // Assuming your User model is in the models directory
 
-const router = express.Router();
+
 
 // Route to add a new user
 router.post('/users', async (req, res) => {
@@ -59,6 +60,17 @@ router.post('/login', async (req, res) => {
         // If both username and password are valid, consider the user logged in
         // You can create and send a token here for authentication purposes
         res.status(200).json({ message: 'Login successful' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+});
+
+// Test route to get all users
+router.get('/test/users', async (req, res) => {
+    try {
+        const users = await User.findAll();
+        res.status(200).json(users);
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: 'Internal Server Error' });
