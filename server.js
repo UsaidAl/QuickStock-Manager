@@ -1,24 +1,20 @@
-const sequelize = require('./DB/connection');
-const path = require('path');
-const express = require('express');
-const session = require('express-session');
-const exphbs = require('express-handlebars');
-const helpers = require('./utils/helpers');
+const path = require("path");
+const { db, sequelize } = require("./models");
+const express = require("express");
+const session = require("express-session");
+const handlebars = require("express-handlebars");
+const SequelizeStore = require("connect-session-sequelize")(session.Store);
+
 const app = express();
-const PORT = process.env.PORT || 3001;
-const sequelize = require('./config/config');
-const SequelizeStore = require('connect-session-sequelize')(session.Store);
+const PORT = process.env.PORT || 3005;
 
-const { User, Product } = require('./models'); // Import User and Product models
-
-// Define session configuration
 const sess = {
-  secret: 'Super secret secret',
+  secret: "Super secret secret",
   cookie: {
-    maxAge: 300000,
+    maxAge: 3000000,
     httpOnly: true,
     secure: false,
-    sameSite: 'strict',
+    sameSite: "strict",
   },
   resave: false,
   saveUninitialized: true,
@@ -29,19 +25,20 @@ const sess = {
 
 app.use(session(sess));
 
-const hbs = exphbs.create({ helpers });
-app.engine('handlebars', hbs.engine);
-app.set('view engine', 'handlebars');
+const hbs = handlebars.create();
+app.engine("handlebars", hbs.engine);
+app.set("view engine", "handlebars");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, "views")));
 
-app.use(require('./controllers/'));
+// routes
+app.use(require("./routes/user.routes"));
 
-// Sync User, Product, and Session tables
-sequelize.sync({ force: true }).then(() => {
+db.sequelize.sync({ force: true }).then(() => {
+  console.log("Drop and resync db");
   app.listen(PORT, () => {
-    console.log(`App listening on port ${PORT}!`);
+    console.log("Listening to server");
   });
 });

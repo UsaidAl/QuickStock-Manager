@@ -1,6 +1,6 @@
 // models/Category.js
 const { Model, DataTypes } = require('sequelize');
-const sequelize = require('../config/config');
+const sequelize = require('../config/db.config');
 
 class Category extends Model {}
 
